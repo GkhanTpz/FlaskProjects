@@ -31,34 +31,28 @@ FlaskProject/
 > Requires Python 3.8+
 
 
-
-# Clone the repo
 ```bash
+# Clone the repo
 git clone https://github.com/yourusername/FlaskProject.git
 cd FlaskProject
 ```
 
 # Create virtual environment
-```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
-``` 
 
 # Install dependencies
-```bash
 pip install -r requirements.txt
 ```
 
 🧪 Running the Application
 
-# Set the environment variable for development
 ```bash
+# Set the environment variable for development
 export FLASK_APP=app.py
 export FLASK_ENV=development  # Enables debug mode
-```
 
 # Run the Flask server
-```bash
 flask run
 ```
 
