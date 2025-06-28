@@ -16,12 +16,12 @@ A simple and modular Flask web application built for educational and internal us
 ```bash
 FlaskProject/
 │
-├── static/                 # CSS, JS, and images
+├── static/                 # CSS, JS, and images (no built)
 ├── templates/              # Jinja2 HTML templates
 ├── app.py                  # Main application entry point
-├── models.py               # Database models (SQLAlchemy or raw SQL)
-├── forms.py                # WTForms or custom validation
-├── config.py               # Environment and DB configs
+├── models.py               # Database models (SQLAlchemy or raw SQL) (no built)
+├── forms.py                # WTForms or custom validation (no built)
+├── config.py               # Environment and DB configs (no built)
 ├── requirements.txt        # Python dependencies
 └── README.md               # You're here!
 ```
