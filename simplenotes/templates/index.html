@@ -6,13 +6,24 @@
 </head>
 <body>
     <form method="POST">
-        <input type="text" name="note" placeholder="Bir not girin" required />
-        <button type="submit">Kaydet</button>
+        <input type="text" name="note" placeholder="Please enter a note" required />
+        <button type="submit">Save</button>
     </form>
-    <h2>Notlar:</h2>
+    
+    <h2>Notes:</h2>
     <ul>
-        {% for note in notes %}
-            <li>{{ note }}</li>
+        {% for i in range(notes | length) %}
+            <li>
+                {{ notes[i] }}
+                <form method="POST" action="/delete" style="display:inline;">
+                    <input type="hidden" name="index" value="{{ i }}"/>
+                    <button type="submit">Delete</button>
+                </form>
+
+                <form method="GET" action="/edit/{{ i }}" style="display:inline;">
+                    <button type="submit">Update</button>
+                </form>
+            </li>
         {% endfor %}
     </ul>
 </body>

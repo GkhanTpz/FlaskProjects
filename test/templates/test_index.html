@@ -7,7 +7,7 @@
 <body>
     <form method="POST">
         <input type="text" name="note" placeholder="Bir not girin" required />
-        <button type="submit">Kaydet</button>
+        <button type="submit">Save</button>
 
         <h2>Notlar:</h2>
         <ul>
@@ -16,11 +16,11 @@
                     {{ notes[i] }}
                     <form method="POST" action="/delete" style="display:inline;">
                         <input type="hidden" name="index" value="{{ i }}">
-                        <button type="submit">Sil</button>
+                        <button type="submit">Delete</button>
                     </form>
 
                     <form method="GET" action="/test_edit/{{ i }}" style="display:inline;">
-                        <button type="submit">Düzenle</button>
+                        <button type="submit">Update</button>
                     </form>
                 </li>
             {% endfor %}
