@@ -26,10 +26,9 @@ FlaskProject/
 └── README.md               # You're here!
 ```
 
-⚙️ Installation
+## ⚙️ Installation
 
 > Requires Python 3.8+
-
 
 ```bash
 # Clone the repo
@@ -44,7 +43,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-🧪 Running the Application
+## 🧪 Running the Application
 
 ```bash
 # Set the environment variable for development
@@ -57,7 +56,7 @@ flask run
 
 Access the app at: http://127.0.0.1:5000
 
-🛡️ Security Notes
+## 🛡️ Security Notes
 
 Do not use the built-in development server for production.
 
@@ -66,7 +65,7 @@ Sanitize all user input.
 Consider using a WSGI server like Gunicorn or uWSGI for deployment.
 
 
-📦 Deployment (Optional)
+## 📦 Deployment (Optional)
 
 To deploy this project on a production environment:
 
@@ -82,8 +81,7 @@ To deploy this project on a production environment:
 4. Enable HTTPS (e.g., Let's Encrypt)
 
 
-
-✅ To-Do (Development Roadmap)
+## ✅ To-Do (Development Roadmap)
 
 [ ] Add user authentication system (Login/Register)
 
@@ -95,15 +93,13 @@ To deploy this project on a production environment:
 
 [ ] Integrate CI/CD with GitHub Actions
 
-
-🤝 Contributing
+## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome. Feel free to fork this repository and open a pull request!
 
-📄 License
+## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
 
 ---
 
