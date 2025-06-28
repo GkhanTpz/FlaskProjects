@@ -16,15 +16,20 @@ A simple and modular Flask web application built for educational and internal us
 ```bash
 FlaskProject/
 │
-├── static/                 # CSS, JS, and images (no built)
-├── templates/              # Jinja2 HTML templates
-├── app.py                  # Main application entry point
-├── models.py               # Database models (SQLAlchemy or raw SQL) (no built)
-├── forms.py                # WTForms or custom validation (no built)
-├── config.py               # Environment and DB configs (no built)
-├── notes.json              # notes that user prompt
-├── requirements.txt        # Python dependencies
-└── README.md               # You're here!
+├── simplenotes/             # Main application directory
+│   ├── templates/           # Jinja2 HTML templates
+│   ├── app.py               # Main Flask application logic
+│   └── notes.json           # JSON file storing user notes
+│
+├── test/                    # Experimental testing space
+│   └── (test versions of app.py, early logic trials, etc.)
+│
+├── static/                  # (Not built yet) For CSS, JS, and image assets
+├── models.py                # (Not built yet) For future database model definitions
+├── forms.py                 # (Not built yet) For future form validation logic
+├── config.py                # (Not built yet) For future configuration settings
+├── requirements.txt         # List of required Python packages
+└── README.md                # Project documentation (this file)
 ```
 
 ## ⚙️ Installation
