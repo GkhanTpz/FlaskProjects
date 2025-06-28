@@ -22,6 +22,7 @@ FlaskProject/
 ├── models.py               # Database models (SQLAlchemy or raw SQL) (no built)
 ├── forms.py                # WTForms or custom validation (no built)
 ├── config.py               # Environment and DB configs (no built)
+├── notes.json              # notes that user prompt
 ├── requirements.txt        # Python dependencies
 └── README.md               # You're here!
 ```
