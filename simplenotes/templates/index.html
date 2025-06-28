@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Simple Notes</title>
+</head>
+<body>
+    <form method="POST">
+        <input type="text" name="note" placeholder="Bir not girin" required />
+        <button type="submit">Kaydet</button>
+    </form>
+    <h2>Notlar:</h2>
+    <ul>
+        {% for note in notes %}
+            <li>{{ note }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
