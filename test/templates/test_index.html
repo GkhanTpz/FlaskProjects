@@ -11,8 +11,18 @@
 
         <h2>Notlar:</h2>
         <ul>
-            {% for note in notes %}
-                <li>{{ note }}</li>
+            {% for i in range(notes | length) %}
+                <li>
+                    {{ notes[i] }}
+                    <form method="POST" action="/delete" style="display:inline;">
+                        <input type="hidden" name="index" value="{{ i }}">
+                        <button type="submit">Sil</button>
+                    </form>
+
+                    <form method="GET" action="/test_edit/{{ i }}" style="display:inline;">
+                        <button type="submit">Düzenle</button>
+                    </form>
+                </li>
             {% endfor %}
         </ul>
     </form>
