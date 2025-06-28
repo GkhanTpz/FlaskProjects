@@ -35,7 +35,6 @@ FlaskProject/
 # Clone the repo
 git clone https://github.com/yourusername/FlaskProject.git
 cd FlaskProject
-```
 
 # Create virtual environment
 python -m venv venv
