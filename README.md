@@ -34,24 +34,34 @@ FlaskProject/
 
 
 # Clone the repo
+```bash
 git clone https://github.com/yourusername/FlaskProject.git
 cd FlaskProject
+```
 
 # Create virtual environment
+```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
+``` 
 
 # Install dependencies
+```bash
 pip install -r requirements.txt
+```
 
 🧪 Running the Application
 
 # Set the environment variable for development
+```bash
 export FLASK_APP=app.py
 export FLASK_ENV=development  # Enables debug mode
+```
 
 # Run the Flask server
+```bash
 flask run
+```
 
 Access the app at: http://127.0.0.1:5000
 
