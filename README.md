@@ -25,6 +25,7 @@ FlaskProject/
 ├── config.py               # Environment and DB configs
 ├── requirements.txt        # Python dependencies
 └── README.md               # You're here!
+```
 
 ⚙️ Installation
 
