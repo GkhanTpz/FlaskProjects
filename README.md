@@ -1,4 +1,4 @@
-
+8
 # FlaskProject
 
 A simple and modular Flask web application built for educational and internal use. This project demonstrates fundamental web development concepts such as routing, form handling, database integration, and frontend templating using Flask and Jinja2.
