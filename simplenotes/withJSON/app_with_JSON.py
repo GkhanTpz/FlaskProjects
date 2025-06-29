@@ -17,7 +17,7 @@ def load_notes():
    return []
    
 notes = load_notes()        # we will store notes here
-app = Flask(__name__)       # Flask application is starting                 # start database
+app = Flask(__name__)       # Flask application is starting               
 
 @app.route("/", methods=["GET", "POST"])        # Main page address (like localhost:5000)
 def home():
