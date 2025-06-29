@@ -1,4 +1,3 @@
-# Import necessary Flask modules and file handling libraries
 from flask import Flask, render_template, request, redirect
 import json
 import os
@@ -18,7 +17,7 @@ def load_notes():
    return []
    
 notes = load_notes()        # we will store notes here
-app = Flask(__name__)       # Flask application is starting                 
+app = Flask(__name__)       # Flask application is starting               
 
 @app.route("/", methods=["GET", "POST"])        # Main page address (like localhost:5000)
 def home():
@@ -30,8 +29,10 @@ def home():
            save_notes(notes)       # Write to JSON after each addition
    return render_template("index_with_JSON.html", notes=notes)       # HTML file to be displayed in browser
 
-@app.route("/delete/<int:index>", methods=["POST"])
-def delete_note(index):
+@app.route("/delete", methods=["POST"])
+def delete_note():
+   # Get index and delete note
+   index = int(request.form.get("index"))
    if 0 <= index < len(notes):  # Security check
        del notes[index]         # Delete from list
        save_notes(notes)        # Update JSON file
