@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>Test Simple Notes</title>
+    <title>Test Simple Notes with JSON</title>
 </head>
 <body>
     <form method="POST">
@@ -14,8 +14,7 @@
             {% for i in range(notes | length) %}
                 <li>
                     {{ notes[i] }}
-                    <form method="POST" action="/delete" style="display:inline;">
-                        <input type="hidden" name="index" value="{{ i }}">
+                    <form method="POST" action="/delete/{{ i }}" style="display:inline;">
                         <button type="submit">Delete</button>
                     </form>
 

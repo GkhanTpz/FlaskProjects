@@ -26,9 +26,8 @@ def home():
             save_notes(notes)
     return render_template("test_index_with_JSON.html", notes=notes)
 
-@app.route("/delete", methods=["POST"])
-def delete_note():
-    index = int(request.form.get("index"))
+@app.route("/delete/<int:index>", methods=["POST"])
+def delete_note(index):
     if 0 <= index < len(notes):
         del notes[index]
         save_notes(notes)
