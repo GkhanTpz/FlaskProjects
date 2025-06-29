@@ -17,8 +17,7 @@ def load_notes():
    return []
    
 notes = load_notes()        # we will store notes here
-
-app = Flask(__name__)       # Flask application is starting
+app = Flask(__name__)       # Flask application is starting                 # start database
 
 @app.route("/", methods=["GET", "POST"])        # Main page address (like localhost:5000)
 def home():
@@ -28,7 +27,7 @@ def home():
        if note:        # If not empty, add to list
            notes.append(note)      # adds the text from form to notes list
            save_notes(notes)       # Write to JSON after each addition
-   return render_template("index.html", notes=notes)       # HTML file to be displayed in browser
+   return render_template("index_with_JSON.html", notes=notes)       # HTML file to be displayed in browser
 
 @app.route("/delete", methods=["POST"])
 def delete_note():
@@ -49,7 +48,7 @@ def edit_note(index):
            save_notes(notes)        # Save changes
        return redirect("/")
    current_note = notes[index]      # Get current note for editing
-   return render_template("edit.html", note=current_note, index=index)
+   return render_template("edit_with_JSON.html", note=current_note, index=index)
 
 if __name__ == "__main__":
    app.run(debug=True)         # Application is started

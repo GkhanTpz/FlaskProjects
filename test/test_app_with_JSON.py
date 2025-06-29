@@ -15,7 +15,6 @@ def load_notes():
     return []
 
 notes = load_notes()
-
 app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
@@ -25,7 +24,7 @@ def home():
         if note:
             notes.append(note)
             save_notes(notes)
-    return render_template("test_index.html", notes=notes)
+    return render_template("test_index_with_JSON.html", notes=notes)
 
 @app.route("/delete", methods=["POST"])
 def delete_note():
@@ -35,7 +34,7 @@ def delete_note():
         save_notes(notes)
     return redirect("/")
 
-@app.route("/test_edit/<int:index>", methods=["GET", "POST"])
+@app.route("/test_edit_with_JSON/<int:index>", methods=["GET", "POST"])
 def edit_note(index):
     if request.method == "POST":
         new_note = request.form.get("note")
@@ -44,7 +43,7 @@ def edit_note(index):
             save_notes(notes)
         return redirect("/")
     current_note = notes[index]
-    return render_template("test_edit.html", note=current_note, index=index)
+    return render_template("test_edit_with_JSON.html", note=current_note, index=index)
 
 if __name__ =="__main__":
     app.run(debug=True)

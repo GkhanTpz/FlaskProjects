@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Simple Notes with SQLite</title>
+</head>
+<body>
+    <form method="POST" action="{{ url_for('add_note') }}">
+        <input type="text" name="note" placeholder="Please enter a note" required />
+        <button type="submit">Save</button>
+    </form>
+        <h2>Notlar:</h2>
+        <ul>
+            {% for id, text in notes %}
+                <li>
+                    {{ text }}
+                    <form method="POST" action="{{ url_for('delete_note', id=id)}}" style="display:inline;">
+                        <button type="submit">Delete</button>
+                    </form>
+                    <a href="{{ url_for('edit_note', id=id) }}">
+                        <button type="button">Update</button>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+</body>
+</html>

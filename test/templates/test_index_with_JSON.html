@@ -6,9 +6,9 @@
 </head>
 <body>
     <form method="POST">
-        <input type="text" name="note" placeholder="Bir not girin" required />
+        <input type="text" name="note" placeholder="Please enter a note" required />
         <button type="submit">Save</button>
-
+    </form>
         <h2>Notlar:</h2>
         <ul>
             {% for i in range(notes | length) %}
@@ -19,7 +19,7 @@
                         <button type="submit">Delete</button>
                     </form>
 
-                    <form method="GET" action="/test_edit/{{ i }}" style="display:inline;">
+                    <form method="GET" action="/test_edit_with_JSON/{{ i }}" style="display:inline;">
                         <button type="submit">Update</button>
                     </form>
                 </li>

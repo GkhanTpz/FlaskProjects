@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Note</title>
+</head>
+<body>
+    <h2>Update Note</h2>
+    <form method="POST" action="{{ url_for('update_note', id=note[0]) }}">
+        <input type="text" name="new_note" value="{{ note[1] }}" required/>
+        <button type="submit">Save</button>
+    </form>
+    <a href="{{ url_for('home') }}">Back</a>
+</body>
+</html>
