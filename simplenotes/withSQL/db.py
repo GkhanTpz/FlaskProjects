@@ -16,9 +16,9 @@ def init_db():
     conn.commit()
     conn.close()
 
-def insert_note(text):
+def insert_note(note):
     conn, cursor = db_connect()
-    cursor.execute("INSERT INTO notes (text) VALUES (?)", (text,))
+    cursor.execute("INSERT INTO notes (text) VALUES (?)", (note,))
     conn.commit()
     conn.close()
 
@@ -35,8 +35,8 @@ def delete_note_from_db(id):
     conn.commit()
     conn.close()
 
-def update_note_in_db(id, new_text):
+def update_note_in_db(id, new_note):
     conn, cursor = db_connect()
-    cursor.execute("UPDATE notes SET text = ? WHERE id = ?",(new_text,id))
+    cursor.execute("UPDATE notes SET text = ? WHERE id = ?",(new_note,id))
     conn.commit()
     conn.close()
