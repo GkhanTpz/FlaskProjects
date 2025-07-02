@@ -20,10 +20,10 @@ def home():
 @app.route("/add", methods=["POST"])
 def add_note():
     # Get the note text from the form
-    text = request.form.get("note")
+    note = request.form.get("note")
     # If text exists, add it to the database
     if text:
-        insert_note(text)
+        insert_note(note)
     # Redirect back to home page
     return redirect(url_for("home"))
 
@@ -53,9 +53,9 @@ def edit_note(id):
 @app.route("/update/<int:id>", methods=["POST"])
 def update_note(id):
     # Get the new note text from the form
-    new_text = request.form.get("new_note")
+    new_note = request.form.get("new_note")
     # Update the note in the database
-    update_note_in_db(id, new_text)
+    update_note_in_db(id, new_note)
     # Redirect back to home page
     return redirect(url_for("home"))
 
