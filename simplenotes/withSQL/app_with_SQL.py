@@ -22,7 +22,7 @@ def add_note():
     # Get the note text from the form
     note = request.form.get("note")
     # If text exists, add it to the database
-    if text:
+    if note:
         insert_note(note)
     # Redirect back to home page
     return redirect(url_for("home"))
