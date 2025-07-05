@@ -62,10 +62,10 @@ def home():
 @app.route("/add", methods=["POST"])
 def add_note():
     # Get the note text from the form
-    text = request.form.get("note")
+    note = request.form.get("note")
     # If text exists, add it to the database
-    if text:
-        insert_note(text)
+    if note:
+        insert_note(note)
     # Redirect back to home page
     return redirect(url_for("home"))
 
