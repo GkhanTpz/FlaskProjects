@@ -5,9 +5,14 @@
     <title>Simple Notes with JSON</title>
 </head>
 <body>
-    <form method="POST">
+    <h3>Welcome, {{ user }}! <a href="{{ url_for('logout') }}">Exit</a></h3>
+    <form method="POST" action="{{ url_for('home') }}", style="display:inline;">
         <input type="text" name="note" placeholder="Please enter a note" required />
         <button type="submit">Save</button>
+    </form>
+    <form method="GET" action="{{ url_for('search') }}", style="display:inline;">
+        <input type="text" name="q" placeholder="Search a keyword" required />
+        <button type="submit">Search</button>
     </form>
     
     <h2>Notes:</h2>
