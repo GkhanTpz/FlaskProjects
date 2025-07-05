@@ -24,7 +24,6 @@ FlaskProject/
 │   ├── user.json            # JSON file storing users
 │   ├── notes.db             # DB file storing user notes
 │   └── notes.json           # JSON file storing user notes
-    
 │
 ├── test/                    # Experimental testing space
 │   └── (test versions of app.py, early logic trials, etc.)
