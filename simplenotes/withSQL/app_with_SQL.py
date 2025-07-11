@@ -1,5 +1,6 @@
 # Import necessary Flask modules and database functions
 from flask import Flask, render_template, request, redirect, url_for, session
+from functools import wraps
 from db import init_db, users, create_user, get_user_by_username, get_notes, update_note_in_db, insert_note, delete_note_from_db, search_note_in_db
 
 # Create Flask application instance
@@ -10,13 +11,14 @@ app.secret_key = "supersecretkey"  # Secret key for session management
 init_db()
 users()
 
-@app.route("/")
-def check_login():
-    # Check if user is logged in and redirect accordingly
-    if "user" in session:
-        return redirect(url_for("home"))
-    else:
-        return redirect(url_for("login"))
+def login_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        # Check if user is logged in and redirect accordingly
+        if "user" not in session:
+            return redirect(url_for("login"))
+        return func(*args, **kwargs)
+    return wrapper
     
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -35,6 +37,7 @@ def login():
     return render_template("login.html")
 
 @app.route("/logout")
+@login_required
 def logout():
     # Remove user from session and redirect to login
     session.pop("user", None)
@@ -51,7 +54,8 @@ def register():
     return render_template("register.html")
 
 # Home page route - displays all notes
-@app.route("/index")
+@app.route("/")
+@login_required
 def home():
     # Get all notes from the database
     notes = get_notes()
@@ -60,6 +64,7 @@ def home():
 
 # Add new note route - handles POST requests only
 @app.route("/add", methods=["POST"])
+@login_required
 def add_note():
     # Get the note text from the form
     text = request.form.get("note")
@@ -71,6 +76,7 @@ def add_note():
 
 # Delete note route - handles POST requests with note ID
 @app.route("/delete/<int:id>", methods=["POST"])
+@login_required
 def delete_note(id):
     # Delete the note from database using the ID
     delete_note_from_db(id)
@@ -79,6 +85,7 @@ def delete_note(id):
 
 # Edit note page route - displays the edit form
 @app.route("/edit/<int:id>")
+@login_required
 def edit_note(id):
     # Get all notes from database
     notes = get_notes()
@@ -93,6 +100,7 @@ def edit_note(id):
 
 # Update note route - handles POST requests to save changes
 @app.route("/update/<int:id>", methods=["POST"])
+@login_required
 def update_note(id):
     # Get the new note text from the form
     new_note = request.form.get("new_note")
@@ -101,7 +109,8 @@ def update_note(id):
     # Redirect back to home page
     return redirect(url_for("home"))
 
-@app.route("/search", methods=["GET"])
+@app.route("/search", methods=["GET", "POST"])
+@login_required
 def search():
     # Handle note searching
     query = request.args.get("q")  # Get search query from URL parameters
@@ -109,9 +118,9 @@ def search():
     # Search for note in database
     found_note = search_note_in_db(query)
     if found_note:
-        return f"Found note: {found_note[0]} <a href='/index'>Back</a>"
+        return f"Found note: {found_note[0]} <a href='/'>Back</a>"
     else:
-        return "Note not found <a href='/index'>Back</a>"
+        return "Note not found <a href='/'>Back</a>",404
 
 # Run the application in debug mode if this file is executed directly
 if __name__ =="__main__":

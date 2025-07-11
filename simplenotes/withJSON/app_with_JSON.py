@@ -1,5 +1,6 @@
 # Import necessary Flask modules and file handling libraries
 from flask import Flask, render_template, request, redirect, url_for, session
+from functools import wraps
 import json
 import os
 
@@ -38,20 +39,21 @@ def load_users():
         with open(file_path, "r", encoding="utf-8") as f:
             return json.load(f)
     return[]
-    
+
+def login_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        # Check if user is logged in and redirect accordingly
+        if "user" not in session:
+            return redirect(url_for("login"))
+        return func(*args, **kwargs)
+    return wrapper
+                 
 notes = load_notes()        # we will store notes here
 users = load_users()        # we will store users here
 app = Flask(__name__)       # Flask application is starting                 
 app.secret_key = "supersecretkey"  # Secret key for session management
-
-@app.route("/") 
-def check_login():
-    # Check if user is logged in and redirect accordingly
-    if "user" in session:
-        return redirect(url_for("home"))
-    else:
-        return redirect(url_for("login")) 
-
+ 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     # Handle user login
@@ -69,6 +71,7 @@ def login():
     return render_template("login.html")
 
 @app.route("/logout")
+@login_required
 def logout():
     # Remove user from session and redirect to login
     session.pop("user", None)
@@ -89,7 +92,8 @@ def register():
         return redirect(url_for('login'))  # Redirect to login page
     return render_template("register.html")
 
-@app.route("/index", methods=["GET", "POST"])        # Main page address (like localhost:5000)
+@app.route("/", methods=["GET", "POST"])        # Main page address (like localhost:5000)
+@login_required
 def home():
     # Handle form submission
     if request.method == "POST":
@@ -102,6 +106,7 @@ def home():
     return render_template("index_with_JSON.html", notes=notes, user=session["user"])       
 
 @app.route("/delete/<int:index>", methods=["POST"])
+@login_required
 def delete_note(index):
    # Delete note at specified index
    if 0 <= index < len(notes):  # Security check
@@ -110,6 +115,7 @@ def delete_note(index):
    return redirect(url_for('home'))         # Refresh page (homepage)
 
 @app.route("/edit/<int:index>", methods=["GET", "POST"])
+@login_required
 def edit_note(index):
    # Handle note editing
    if request.method == "POST":
@@ -121,7 +127,8 @@ def edit_note(index):
    current_note = notes[index]      # Get current note for editing
    return render_template("edit_with_JSON.html", note=current_note, index=index)
 
-@app.route("/search", methods=["GET"])
+@app.route("/search", methods=["GET", "POST"])
+@login_required
 def search():
     # Handle note searching
     query = request.args.get("q")  # Get search query from URL parameters
@@ -129,9 +136,9 @@ def search():
     # Search for exact match in notes
     for note in notes:
         if note == query:
-            return f"Found note: {query} <a href='/index'>Back</a>"
+            return f"Found note: {query} <a href='/'>Back</a>"
         
-    return "Note not found <a href='/index'>Back</a>"
+    return "Note not found <a href='/'>Back</a>",404
 
 if __name__ == "__main__":
    app.run(debug=True)         # Application is started
