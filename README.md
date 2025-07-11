@@ -19,7 +19,9 @@ FlaskProject/
 ├── simplenotes/             # Main application directory
 │   ├── templates/           # Jinja2 HTML templates
 │   ├── app.py               # Main Flask application logic
-│   ├── db.py                # Database file 
+│   ├── db.py                # Database file
+│   ├── user.db              # DB file storing users
+│   ├── user.json            # JSON file storing users
 │   ├── notes.db             # DB file storing user notes
 │   └── notes.json           # JSON file storing user notes
 │
