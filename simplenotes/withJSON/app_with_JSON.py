@@ -1,44 +1,8 @@
 # Import necessary Flask modules and file handling libraries
 from flask import Flask, render_template, request, redirect, url_for, session
+from auth.user_manager import save_users, load_users
+from notes.note_manager import save_notes, load_notes
 from functools import wraps
-import json
-import os
-
-# File names for data storage
-DATA_FILE = "notes.json"
-USERS_FILE = "users.json"
-
-def save_notes(notes):
-    base_dir = os.path.dirname(__file__) # folder found file
-    file_path = os.path.join(base_dir, DATA_FILE) # joint "user.json" with path
-    # Save notes to JSON file
-    with open(file_path, "w", encoding="utf-8") as f:
-       json.dump(notes, f, ensure_ascii=False, indent=4)
-
-def load_notes():
-    base_dir = os.path.dirname(__file__) # folder found file
-    file_path = os.path.join(base_dir, DATA_FILE) # joint "user.json" with path
-    # Load notes from JSON file if exists
-    if os.path.exists(file_path):
-        with open(file_path, "r", encoding="utf-8") as f:
-           return json.load(f)
-    return []
-
-def save_users(users):
-    base_dir = os.path.dirname(__file__) # folder found file
-    file_path = os.path.join(base_dir, USERS_FILE) # joint "user.json" with path
-    # Save users to JSON file
-    with open(file_path, "w", encoding="utf-8") as f:
-        json.dump(users, f, ensure_ascii=False, indent=4)
-        
-def load_users():
-    base_dir = os.path.dirname(__file__) # folder found file
-    file_path = os.path.join(base_dir, USERS_FILE) # joint "user.json" with path
-     # Load users from JSON file if exists
-    if os.path.exists(file_path):
-        with open(file_path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return[]
 
 def login_required(func):
     @wraps(func)

@@ -1,7 +1,7 @@
 # Import necessary Flask modules and database functions
 from flask import Flask, render_template, request, redirect, url_for, session
 from functools import wraps
-from db import init_db, users, create_user, get_user_by_username, get_notes, update_note_in_db, insert_note, delete_note_from_db, search_note_in_db
+from models.db import init_db, users, create_user, get_user_by_username, get_notes, update_note_in_db, insert_note, delete_note_from_db, search_note_in_db
 
 # Create Flask application instance
 app = Flask(__name__)
