@@ -8,7 +8,7 @@ This repository serves as a central hub for multiple standalone Flask projects, 
 
 ## 📦 Included Projects
 
-### `simplenotes/` – Notes App with JSON & SQLite
+### 1. `simplenotes/` – Notes App with JSON & SQLite
 
 A simple note-taking application built in two parallel versions:
 - **JSON-based version:** Lightweight file-based data persistence  
