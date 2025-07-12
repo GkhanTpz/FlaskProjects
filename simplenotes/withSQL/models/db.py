@@ -1,7 +1,7 @@
 import os
 import sqlite3
 
-NOTE_PATH= "notes/notes.db"
+NOTE_PATH = "notes/notes.db"
 USER_PATH = "auth/users.db"
 
 
