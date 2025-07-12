@@ -23,7 +23,7 @@ A simple and modular Flask web application built for educational and internal us
 ```bash
 FlaskProject/
 │
-├── simplenotes/             
+├── simplenotes/          # Including withJSON and withSQL (simplenotes/withJSON or simplenotes/SQL)
 │   ├── auth/             # Login/Register logic (SQLite or JSON)
 │   ├── notes/            # Note CRUD (SQLite or JSON)
 │   ├── models/           # SQLite database logic (db.py)
