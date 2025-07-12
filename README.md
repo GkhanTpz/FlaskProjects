@@ -24,18 +24,18 @@ A simple and modular Flask web application built for educational and internal us
 FlaskProject/
 │
 ├── simplenotes/             
-│   ├── auth/                # Login/Register logic (SQLite or JSON)
-│   ├── notes/               # Note CRUD (SQLite or JSON)
-│   ├── models/              # SQLite database logic (db.py)
-│   ├── static/              # Custom CSS or image files
-│   ├── templates/           # Jinja2 templates with base.html structure
-│   ├── app.py               # Main application file
+│   ├── auth/             # Login/Register logic (SQLite or JSON)
+│   ├── notes/            # Note CRUD (SQLite or JSON)
+│   ├── models/           # SQLite database logic (db.py)
+│   ├── static/           # Custom CSS or image files
+│   ├── templates/        # Jinja2 templates with base.html structure
+│   ├── app.py            # Main application file
 │
-├── test/                    # Experimental testing & drafts
-├── config.py                # (Planned) App config (e.g., database URI)
-├── forms.py                 # (Planned) Flask-WTF form definitions
-├── requirements.txt         # Python dependency list
-└── README.md                # Project documentation (this file)
+├── test/                 # Experimental testing & drafts
+├── config.py             # (Planned) App config (e.g., database URI)
+├── forms.py              # (Planned) Flask-WTF form definitions
+├── requirements.txt      # Python dependency list
+└── README.md             # Project documentation (this file)
 ```
 
 ## ⚙️ Installation
@@ -55,6 +55,8 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
+---
+
 ## 🧪 Running the Application
 
 ```bash
@@ -68,6 +70,8 @@ flask run
 
 Access the app at: http://127.0.0.1:5000
 
+---
+
 ## 🛡️ Security Notes
 
 Do not use the built-in development server for production.
@@ -75,6 +79,8 @@ Do not use the built-in development server for production.
 Sanitize all user input.
 
 Consider using a WSGI server like Gunicorn or uWSGI for deployment.
+
+---
 
 ## 📦 Deployment (Optional)
 
@@ -85,7 +91,7 @@ To deploy on a production environment:
 	4.	Set up HTTPS (via Let’s Encrypt)
 	5.	Reverse proxy with Nginx or Apache
 
-⸻
+---
 
 ## 🛡️ Security Notes
 	•	Never use the built-in Flask server in production
@@ -93,7 +99,7 @@ To deploy on a production environment:
 	•	Protect routes using @login_required
 	•	Avoid exposing secrets or raw database queries
 
-⸻
+---
 
 ## ✅ Development Roadmap (To-Do)
 	•	Implement user login/register with session support
@@ -109,7 +115,7 @@ To deploy on a production environment:
 	•	Dockerize the project
 	•	Set up GitHub Actions for CI/CD
 
-⸻
+---
 
 ## 🤝 Contributing
 
@@ -119,6 +125,4 @@ Feel free to fork this repository and open a pull request!
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
----
 
