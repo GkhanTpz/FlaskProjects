@@ -85,7 +85,7 @@ Consider using a WSGI server like Gunicorn or uWSGI for deployment.
 ## 📦 Deployment (Optional)
 
 To deploy on a production environment:
-	1.	Use a WSGI server like Gunicorn or uWSGI
+	1. Use a WSGI server like Gunicorn or uWSGI
 	2.	Switch to a production-grade SQL database (MySQL/PostgreSQL)
 	3.	Store secrets in environment variables or .env files
 	4.	Set up HTTPS (via Let’s Encrypt)
