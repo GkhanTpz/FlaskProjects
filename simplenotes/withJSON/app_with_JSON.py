@@ -1,5 +1,5 @@
 # Import necessary Flask modules and file handling libraries
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, flash, render_template, request, redirect, url_for, session
 from auth.user_manager import save_users, load_users
 from notes.note_manager import save_notes, load_notes
 from functools import wraps
@@ -9,6 +9,7 @@ def login_required(func):
     def wrapper(*args, **kwargs):
         # Check if user is logged in and redirect accordingly
         if "user" not in session:
+            flash("Please login to continue.", "warning")
             return redirect(url_for("login"))
         return func(*args, **kwargs)
     return wrapper
@@ -30,8 +31,10 @@ def login():
         for user in users:
             if user["username"] == username and user["password"] == password:
                 session["user"] = username  # Store user in session
+                flash("Welcome, " + username, "success")
                 return redirect(url_for("home"))
-        return render_template("login.html", error="Invalid username or password!")
+        flash("Invalid username or password", "danger")
+        return render_template("login.html")
     return render_template("login.html")
 
 @app.route("/logout")
@@ -39,6 +42,7 @@ def login():
 def logout():
     # Remove user from session and redirect to login
     session.pop("user", None)
+    flash("You have been logged out", "info")
     return redirect(url_for("login"))
 
 @app.route("/register", methods=["GET", "POST"])
@@ -47,12 +51,17 @@ def register():
     if request.method == "POST":
         username = request.form.get("username")  # Get username from form
         password = request.form.get("password")  # Get password from form
+        for user in users:
+            if user["username"] == username:
+                flash("This username is already taken.", "danger")
+                return redirect(url_for('register'))
         # Add new user to users list
         users.append({
             "username": username,
             "password": password
         })
         save_users(users)  # Save users to file
+        flash("Registration successful. You can now login.", "success")
         return redirect(url_for('login'))  # Redirect to login page
     return render_template("register.html")
 

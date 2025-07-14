@@ -1,5 +1,5 @@
 # Import necessary Flask modules and database functions
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, flash, render_template, request, redirect, url_for, session
 from functools import wraps
 from models.db import init_db, users, create_user, get_user_by_username, get_notes, update_note_in_db, insert_note, delete_note_from_db, search_note_in_db
 
@@ -16,6 +16,7 @@ def login_required(func):
     def wrapper(*args, **kwargs):
         # Check if user is logged in and redirect accordingly
         if "user" not in session:
+            flash("Please login to continue.", "warning")
             return redirect(url_for("login"))
         return func(*args, **kwargs)
     return wrapper
@@ -31,8 +32,10 @@ def login():
         # Check if user exists and password matches
         if user and user[2] == password:
             session["user"] = username  # Store user in session
+            flash("Welcome, " + user[1], "success")
             return redirect(url_for("home"))
         else:
+            flash("Invalid username or password", "danger")
             return render_template("login.html", error="Invalid username or password")
     return render_template("login.html")
 
@@ -41,6 +44,7 @@ def login():
 def logout():
     # Remove user from session and redirect to login
     session.pop("user", None)
+    flash("You have been logged out", "info")
     return redirect(url_for("login"))
 
 @app.route("/register", methods=["GET", "POST"])
@@ -49,7 +53,12 @@ def register():
     if request.method == "POST":
         username = request.form.get("username")  # Get username from form
         password = request.form.get("password")  # Get password from form
+        user = get_user_by_username(username)
+        if user:
+            flash("This username is already taken.", "danger")
+            return redirect(url_for("register"))    
         create_user(username, password)          # Create new user in database
+        flash("Registration successful. You can now login.", "success")
         return redirect(url_for("login"))       # Redirect to login page
     return render_template("register.html")
 
