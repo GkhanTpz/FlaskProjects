@@ -8,8 +8,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
 </head>
 <body class="bg-light">
-
+<!-- Header section with flash messages and user info -->
 <div class="container mt-5">
+    <!-- Flash messages display area and user logout section -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div class="min-height: 60px;">
             {% with messages= get_flashed_messages(with_categories=true) %}
@@ -30,7 +31,7 @@
                 </a>
         </div>
     </div>
-
+    <!-- Add note and search forms section -->
     <div class="row mb-4">
         <div class="col-md-6 mb-3">
             <form method="POST" action="{{ url_for('home') }}" class="d-flex gap-2">
@@ -49,7 +50,7 @@
             </form>
         </div>
     </div>
-
+    <!-- Notes display list with edit and delete options -->
     <h4>Notes:</h4>
     <ul class="list-group">
         {% for i in range(notes | length) %}
