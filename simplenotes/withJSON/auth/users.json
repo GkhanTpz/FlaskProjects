@@ -1,14 +1,14 @@
 [
     {
         "username": "gokhan",
-        "password": "1234"
-    },
-    {
-        "username": "admin",
-        "password": "admin"
+        "password": "scrypt:32768:8:1$xWShiaUtwIh3tboi$01f4bc60d8b050a50edbfce39679b4a9c8388fa7b7487806e0571127cb7f9b28f7a8ddcf9a268e3550db68e7a0e25ddd78f4076a8697083a783f2737aee03456"
     },
     {
         "username": "jenny",
-        "password": "1234"
+        "password": "scrypt:32768:8:1$Xy58N77K3Qy57wvA$d28bf1d8a350d79dff47b4b093e56381d6ecd179145f311fb6fcd124973baf48b9e2a0be6f6d360f82c0d10b59e69dd8cc30d1fd2240b700925ba8d035b19ed2"
+    },
+    {
+        "username": "admin",
+        "password": "scrypt:32768:8:1$mL5Y2Z2tkyLAbw7I$49a049e235d11013f301978e1fbc8867f6dc90b6a1ba5201f6ee4267d5fce1b0645a0fea48dbdf21b846145bf36a11c4828fb01c4f31c731a5a58c1c35b540ca"
     }
 ]

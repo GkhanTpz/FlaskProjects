@@ -1,5 +1,6 @@
 # Import necessary Flask modules and database functions
 from flask import Flask, flash, render_template, request, redirect, url_for, session
+from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from models.db import init_db, users, create_user, get_user_by_username, get_notes, update_note_in_db, insert_note, delete_note_from_db, search_note_in_db
 
@@ -30,7 +31,7 @@ def login():
         user = get_user_by_username(username)    # Get user from database
         
         # Check if user exists and password matches
-        if user and user[2] == password:
+        if user and check_password_hash(user[2], password):
             session["user"] = username  # Store user in session
             flash("Welcome, " + user[1], "success")
             return redirect(url_for("home"))
@@ -53,11 +54,12 @@ def register():
     if request.method == "POST":
         username = request.form.get("username")  # Get username from form
         password = request.form.get("password")  # Get password from form
+        hash_password = generate_password_hash(password) # Convert user password to secure hash format (for database storage)
         user = get_user_by_username(username)
         if user:
             flash("This username is already taken.", "danger")
             return redirect(url_for("register"))    
-        create_user(username, password)          # Create new user in database
+        create_user(username, hash_password)          # Create new user in database
         flash("Registration successful. You can now login.", "success")
         return redirect(url_for("login"))       # Redirect to login page
     return render_template("register.html")

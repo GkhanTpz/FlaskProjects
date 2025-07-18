@@ -1,5 +1,6 @@
 # Import necessary Flask modules and file handling libraries
 from flask import Flask, flash, render_template, request, redirect, url_for, session
+from werkzeug.security import generate_password_hash, check_password_hash
 from auth.user_manager import save_users, load_users
 from notes.note_manager import save_notes, load_notes
 from functools import wraps
@@ -29,7 +30,7 @@ def login():
         
         # Check if credentials match any user
         for user in users:
-            if user["username"] == username and user["password"] == password:
+            if user["username"] == username and check_password_hash(user["password"], password):
                 session["user"] = username  # Store user in session
                 flash("Welcome, " + username, "success")
                 return redirect(url_for("home"))
@@ -51,6 +52,7 @@ def register():
     if request.method == "POST":
         username = request.form.get("username")  # Get username from form
         password = request.form.get("password")  # Get password from form
+        hash_password = generate_password_hash(password) # Convert user password to secure hash format (for JSON)
         for user in users:
             if user["username"] == username:
                 flash("This username is already taken.", "danger")
@@ -58,7 +60,7 @@ def register():
         # Add new user to users list
         users.append({
             "username": username,
-            "password": password
+            "password": hash_password
         })
         save_users(users)  # Save users to file
         flash("Registration successful. You can now login.", "success")
