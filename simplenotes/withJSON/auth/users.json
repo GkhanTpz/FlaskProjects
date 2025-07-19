@@ -10,5 +10,9 @@
     {
         "username": "admin",
         "password": "scrypt:32768:8:1$mL5Y2Z2tkyLAbw7I$49a049e235d11013f301978e1fbc8867f6dc90b6a1ba5201f6ee4267d5fce1b0645a0fea48dbdf21b846145bf36a11c4828fb01c4f31c731a5a58c1c35b540ca"
+    },
+    {
+        "username": "faruk",
+        "password": "scrypt:32768:8:1$nQwJhQPr30AIqJoh$b5a4e2c4b50586e7abd9a4f296be610129cbdba6c66bd517277eb24e9674e441eeab96865a116c819a5afecea3db54bbeb951280fb0629994be71807eb3d1bd9"
     }
 ]

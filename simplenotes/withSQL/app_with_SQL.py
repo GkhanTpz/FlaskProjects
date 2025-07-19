@@ -54,11 +54,15 @@ def register():
     if request.method == "POST":
         username = request.form.get("username")  # Get username from form
         password = request.form.get("password")  # Get password from form
-        hash_password = generate_password_hash(password) # Convert user password to secure hash format (for database storage)
+        confirm = request.form.get("confirm")    # Get confirm from form
         user = get_user_by_username(username)
         if user:
             flash("This username is already taken.", "danger")
-            return redirect(url_for("register"))    
+            return redirect(url_for("register"))   
+        if confirm != password:
+            flash("Passwords do not match", "warning")
+            return redirect(url_for("register"))
+        hash_password = generate_password_hash(password) # Convert user password to secure hash format (for database storage)
         create_user(username, hash_password)          # Create new user in database
         flash("Registration successful. You can now login.", "success")
         return redirect(url_for("login"))       # Redirect to login page
