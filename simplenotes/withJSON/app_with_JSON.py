@@ -1,6 +1,7 @@
 # Import necessary Flask modules and file handling libraries
 from flask import Flask, flash, render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_wtf.csrf import CSRFProtect
 from auth.user_manager import save_users, load_users
 from notes.note_manager import save_notes, load_notes
 from functools import wraps
@@ -19,7 +20,10 @@ notes = load_notes()        # we will store notes here
 users = load_users()        # we will store users here
 app = Flask(__name__)       # Flask application is starting                 
 app.secret_key = "supersecretkey"  # Secret key for session management
- 
+
+#Activate CSRF Protect
+csrf = CSRFProtect(app)
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     # Handle user login

@@ -1,12 +1,16 @@
 # Import necessary Flask modules and database functions
 from flask import Flask, flash, render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_wtf.csrf import CSRFProtect
 from functools import wraps
 from models.db import init_db, users, create_user, get_user_by_username, get_notes, update_note_in_db, insert_note, delete_note_from_db, search_note_in_db
 
 # Create Flask application instance
 app = Flask(__name__)
 app.secret_key = "supersecretkey"  # Secret key for session management
+
+#Activate CSRF Protect
+csrf = CSRFProtect(app)
 
 # Initialize the databases when the app starts
 init_db()

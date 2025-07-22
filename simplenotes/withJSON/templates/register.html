@@ -27,26 +27,27 @@
             </div>
             <p class="text-muted">Please fill in the fields below to create an account.</p>
             <form method="POST" action="{{ url_for('register') }}">
-            <div class="mb-3">
-                <label for="username" class="form-label">Username:</label>
-                <input type="text" name="username" class="form-control" placeholder="Username" required>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password:</label><br>
-                <input type="password" name="password" class="form-control" placeholder="Password" required>
-            </div>
-            <div class="mb-3">
-                <label for="confirm" class="form-label">Confirm Password:</label><br>
-                <input type="password" name="confirm" class="form-control" placeholder="Confirm Password" required>
-            </div>
-            <div class="d-grid gap-2 mb-3">
-                <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-person-plus"></i> Sign Up
-                </button>
-                <a href="{{ url_for('login') }}" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Back to Login
-                </a>
-            </div>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username:</label>
+                    <input type="text" name="username" class="form-control" placeholder="Username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password:</label><br>
+                    <input type="password" name="password" class="form-control" placeholder="Password" required>
+                </div>
+                <div class="mb-3">
+                    <label for="confirm" class="form-label">Confirm Password:</label><br>
+                    <input type="password" name="confirm" class="form-control" placeholder="Confirm Password" required>
+                </div>
+                <div class="d-grid gap-2 mb-3">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-person-plus"></i> Sign Up
+                    </button>
+                    <a href="{{ url_for('login') }}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Back to Login
+                    </a>
+                </div>
             </form>
         </div>
     </div>
