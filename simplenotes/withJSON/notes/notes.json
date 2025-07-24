@@ -1,5 +1,27 @@
 [
-    "Flask öğreniyorum!",
-    "Bugün flash ile kullanıcıya mesajlar göstermeyi öğrendim",
-    "Merhaba!"
+    {
+        "id": "140513f7-859e-4c12-b946-a28d85c0cea0",
+        "note": "Bu gökhan'ın sayfasıdır?",
+        "user": "gokhan"
+    },
+    {
+        "id": "a8b90ee9-8727-414a-8e57-78a0cc405d12",
+        "note": "Burası Jenny'nin sayfasıdır.",
+        "user": "jenny"
+    },
+    {
+        "id": "bce353e3-cf9b-4e29-bb83-c925feb6e65e",
+        "note": "Günaydın Jenny.",
+        "user": "jenny"
+    },
+    {
+        "id": "18124ae1-fab5-415f-b20c-19f50b5d4acb",
+        "note": "Merhaba Gökhan.",
+        "user": "gokhan"
+    },
+    {
+        "id": "c1d18cd2-8c7b-49a9-9c79-d6389c1beaef",
+        "note": "Admin sayfası",
+        "user": "admin"
+    }
 ]
