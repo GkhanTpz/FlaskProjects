@@ -58,16 +58,21 @@ def init_db():
     """Initialize notes table"""
     conn, cursor = db_connect(NOTE_PATH)    # Connect to notes database
     # Execute CREATE TABLE query for notes table
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS notes (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            note TEXT NOT NULL,
-            user_id INTEGER NOT NULL
-        )
-    """)
-    conn.commit()                           # Save changes to database
-    conn.close()                            # Close database connection
-
+    try:
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS notes (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                note TEXT NOT NULL,
+                user_id INTEGER NOT NULL
+            )
+        """)
+        conn.commit()                       # Save changes to database
+        conn.close()                        # Close database connection
+        return True                         # Return success status
+    except sqlite3.IntegrityError:          # Handle database integrity errors
+        conn.close()                        # Close connection on error
+        return False                        # Return failure status
+        
 def insert_note(note, user_id):
     """Add new note to database"""
     conn, cursor = db_connect(NOTE_PATH)    # Connect to notes database
