@@ -42,7 +42,7 @@ def login():
             return redirect(url_for("home"))
         else:
             flash("Invalid username or password", "danger")
-            return render_template("login.html", error="Invalid username or password")
+            return render_template("login.html")
     # Render login page for GET requests
     return render_template("login.html")
 

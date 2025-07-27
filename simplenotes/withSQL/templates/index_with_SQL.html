@@ -59,9 +59,9 @@
     <!-- Notes display list with edit and delete options -->
     <h4>Notlar:</h4>
     <ul class="list-group">
-        {% for id, text in notes %}
+        {% for id, note in notes %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ text }}
+                {{ note }}
                 <div>
                     <form method="POST" action="{{ url_for('delete_note', id=id)}}" class="d-inline">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
