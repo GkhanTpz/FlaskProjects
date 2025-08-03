@@ -23,7 +23,7 @@ def home():
     # Check if user exists in database
     if not user:
         flash("User not found! Please Sign Up!", "danger")
-        return redirect(url_for("auth.register"))
+        return redirect(url_for("auth_bp.register"))
     # Get all notes from the database
     notes = get_notes(user[0])
     return render_template("index_with_SQL.html", notes=notes, user=current_user)

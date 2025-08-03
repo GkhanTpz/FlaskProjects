@@ -1,6 +1,6 @@
 # Import necessary Flask modules and database functions
 from flask import Flask
-from auth.routes import auth
+from auth.routes import auth_bp
 from notes.routes import notes_bp
 from flask_wtf.csrf import CSRFProtect
 
@@ -11,7 +11,7 @@ app.secret_key = "supersecretkey"  # Secret key for session management
 # Activate CSRF Protect
 csrf = CSRFProtect(app)
 
-app.register_blueprint(auth)
+app.register_blueprint(auth_bp)
 app.register_blueprint(notes_bp)
 
 # Run the application in debug mode if this file is executed directly
