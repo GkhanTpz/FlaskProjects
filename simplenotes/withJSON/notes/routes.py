@@ -17,7 +17,7 @@ notes_bp = Blueprint("notes_bp", __name__, template_folder="../templates")
 notes = load_notes()
 
 
-@notes_bp .route("/", methods=["GET", "POST"]) 
+@notes_bp.route("/", methods=["GET", "POST"]) 
 @login_required
 def home():
     current_user = session["user"]  # Get current logged in user
