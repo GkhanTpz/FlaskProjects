@@ -35,7 +35,7 @@ def home():
     user_note = [note for note in notes if note["user"] == current_user]
     return render_template("index_with_JSON.html", notes=user_note, user=current_user)
 
-@notes_bp .route("/delete/<id>", methods=["POST"])
+@notes_bp.route("/delete/<id>", methods=["POST"])
 @login_required
 def delete_note(id):  # Delete note at specified id
     current_user = session["user"]  # Get current logged in user
@@ -49,7 +49,7 @@ def delete_note(id):  # Delete note at specified id
         flash("Note not found", "warning")
     return redirect(url_for('notes_bp.home'))  
 
-@notes_bp .route("/edit/<id>", methods=["GET", "POST"])
+@notes_bp.route("/edit/<id>", methods=["GET", "POST"])
 @login_required
 def edit_note(id):  
     current_user = session["user"]  # Get current logged in user
