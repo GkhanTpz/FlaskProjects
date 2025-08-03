@@ -16,8 +16,7 @@ notes_bp = Blueprint("notes_bp", __name__, template_folder="../templates")
 # Load existing notes from JSON file
 notes = load_notes()
 
-
-@notes_bp .route("/", methods=["GET", "POST"]) 
+@notes_bp.route("/", methods=["GET", "POST"]) 
 @login_required
 def home():
     current_user = session["user"]  # Get current logged in user
@@ -32,10 +31,10 @@ def home():
             })
             save_notes(notes)  # Write to JSON after each addition
     # Filter notes to show only current user's notes
-    user_note = [note for note in notes if note["user"] == current_user]
-    return render_template("index_with_JSON.html", notes=user_note, user=current_user)
+    user_notes = [user_notes  for user_notes  in notes if user_notes["user"] == current_user]
+    return render_template("index_with_JSON.html", notes=user_notes, user=current_user)
 
-@notes_bp .route("/delete/<id>", methods=["POST"])
+@notes_bp.route("/delete/<id>", methods=["POST"])
 @login_required
 def delete_note(id):  # Delete note at specified id
     current_user = session["user"]  # Get current logged in user
@@ -49,7 +48,7 @@ def delete_note(id):  # Delete note at specified id
         flash("Note not found", "warning")
     return redirect(url_for('notes_bp.home'))  
 
-@notes_bp .route("/edit/<id>", methods=["GET", "POST"])
+@notes_bp.route("/edit/<id>", methods=["GET", "POST"])
 @login_required
 def edit_note(id):  
     current_user = session["user"]  # Get current logged in user
@@ -67,7 +66,7 @@ def edit_note(id):
     
     current_note = notes[note_index]["note"]  # Get current note for editing
     # Render edit template with current note content and ID
-    return render_template("edit_with_JSON.html", note=current_note, id=id)
+    return render_template("edit_with_JSON.html", note=current_note)
 
 # Route for searching notes
 @notes_bp.route("/search", methods=["GET", "POST"])
@@ -77,11 +76,11 @@ def search():
     query = request.args.get("q")  # Get search query from URL parameters
 
     # Filter notes to current user's notes only
-    search = [note for note in notes if note["user"] == current_user]
+    search = [user_notes for user_notes in notes if user_notes["user"] == current_user]
     
     # Search for exact match in notes
-    for note in search:
-        if note["note"] == query:
+    for user_note in search:
+        if user_note["note"] == query:
             # Return success message with back link if found
             return f"Found note: {query} <a href='/'>Back</a>"
 
