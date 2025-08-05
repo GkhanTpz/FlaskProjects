@@ -87,7 +87,7 @@ def edit_note(id):
         return render_template("edit_with_SQL.html", note=current_note, form=form)
 
 
-@notes_bp.route("/search", methods=["GET", "POST"])
+@notes_bp.route("/search")
 @login_required
 def search():
     """Search for notes containing specific text"""

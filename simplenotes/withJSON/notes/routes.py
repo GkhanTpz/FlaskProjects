@@ -78,7 +78,7 @@ def edit_note(id):
 
 
 # Route for searching notes
-@notes_bp.route("/search", methods=["GET", "POST"])
+@notes_bp.route("/search")
 @login_required
 def search():
     #form = SearchForm()
