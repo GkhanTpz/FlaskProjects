@@ -69,7 +69,7 @@ def edit_note(id):
     
     form.note.data = notes[note_index]["note"]  # Get current note for editing
     # Render edit template with current note content and ID
-    return render_template("edit_with_JSON.html", note=notes, form=form)
+    return render_template("edit_with_JSON.html", form=form)
 
 # Route for searching notes
 @notes_bp.route("/search", methods=["GET", "POST"])
