@@ -7,6 +7,7 @@
 # Import necessary Flask modules and database functions
 from flask import Blueprint, flash, render_template, request, redirect, url_for, session
 from auth.routes import login_required
+from notes.forms import NoteForm, SearchForm
 from notes.note_manager import save_notes, load_notes
 import uuid
 
@@ -19,9 +20,10 @@ notes = load_notes()
 @notes_bp.route("/", methods=["GET", "POST"]) 
 @login_required
 def home():
+    form = NoteForm()
     current_user = session["user"]  # Get current logged in user
-    if request.method == "POST":
-        note = request.form.get("note")  # Get the note from the form
+    if form.validate_on_submit():
+        note = form.note.data  # Get the note from the form
         if note:  # If not empty, add to list
             # adds the text from form to notes list
             notes.append({
@@ -32,7 +34,7 @@ def home():
             save_notes(notes)  # Write to JSON after each addition
     # Filter notes to show only current user's notes
     user_notes = [user_notes  for user_notes  in notes if user_notes["user"] == current_user]
-    return render_template("index_with_JSON.html", notes=user_notes, user=current_user)
+    return render_template("index_with_JSON.html", notes=user_notes, user=current_user, form=form)
 
 @notes_bp.route("/delete/<id>", methods=["POST"])
 @login_required
@@ -51,12 +53,13 @@ def delete_note(id):  # Delete note at specified id
 @notes_bp.route("/edit/<id>", methods=["GET", "POST"])
 @login_required
 def edit_note(id):  
+    form = NoteForm()
     current_user = session["user"]  # Get current logged in user
     # Find note index by ID using generator expression
     note_index = next((index for index, note in enumerate(notes) if note["id"] == id), None)
     
     if request.method == "POST":
-        new_note = request.form.get("note")  # Get updated note from form
+        new_note = form.note.data  # Get updated note from form
         # Check if note exists, belongs to user and new content is provided
         if note_index is not None and notes[note_index]["user"] == current_user:
             if new_note:
@@ -64,14 +67,15 @@ def edit_note(id):
                 save_notes(notes)  # Save changes
             return redirect(url_for('notes_bp.home'))
     
-    current_note = notes[note_index]["note"]  # Get current note for editing
+    form.note.data = notes[note_index]["note"]  # Get current note for editing
     # Render edit template with current note content and ID
-    return render_template("edit_with_JSON.html", note=current_note)
+    return render_template("edit_with_JSON.html", note=notes, form=form)
 
 # Route for searching notes
 @notes_bp.route("/search", methods=["GET", "POST"])
 @login_required
 def search():
+    #form = SearchForm()
     current_user = session["user"]  # Get current logged in user
     query = request.args.get("q")  # Get search query from URL parameters
 

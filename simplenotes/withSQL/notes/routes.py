@@ -7,6 +7,7 @@
 # Import necessary Flask modules and database functions
 from flask import Blueprint, flash, render_template, request, redirect, url_for, session
 from auth.routes import login_required
+from notes.forms import NoteForm, SearchForm
 from models.db import init_db, get_user_by_username, get_notes, update_note_in_db, insert_note, delete_note_from_db, search_note_in_db
 
 # Create Blueprint for notes-related routes
@@ -18,6 +19,7 @@ init_db()
 @notes_bp.route("/")
 @login_required
 def home():
+    form = NoteForm()
     current_user = session["user"]  # Get current logged in user
     user = get_user_by_username(current_user)  # Get user from database
     # Check if user exists in database
@@ -26,15 +28,16 @@ def home():
         return redirect(url_for("auth_bp.register"))
     # Get all notes from the database
     notes = get_notes(user[0])
-    return render_template("index_with_SQL.html", notes=notes, user=current_user)
+    return render_template("index_with_SQL.html", notes=notes, user=current_user, form=form)
 
 @notes_bp.route("/add", methods=["POST"])
 @login_required
 def add_note():
+    form = NoteForm()
     current_user = session["user"]  # Get current logged in user
     user = get_user_by_username(current_user)  # Get user from database
     # Get the note content from the form
-    note = request.form.get("note")
+    note = form.note.data
     # If note exists, add it to the database
     if note:
         insert_note(note, user[0])  # Insert note with user ID
@@ -51,23 +54,26 @@ def delete_note(id):
 @notes_bp.route("/edit/<int:id>")
 @login_required
 def edit_note(id):
+    form = NoteForm()
     current_user = session["user"]  # Get current logged in user
     user = get_user_by_username(current_user)  # Get user from database
     # Get all notes from database
     notes = get_notes(user[0])
     # Find the specific note by ID
     current_note = next((note for note in notes if note[0] == id), None)
-
+    form.note.data = current_note[1]
+    
     # If note doesn't exist, return 404 error
     if current_note is None:
         return "Note not found", 404
-    return render_template("edit_with_SQL.html", note=current_note)
+    return render_template("edit_with_SQL.html", note=current_note, form=form)
 
 @notes_bp.route("/update/<int:id>", methods=["POST"])
 @login_required
 def update_note(id):
+    form = NoteForm()
     # Get the new note content from the form
-    new_note = request.form.get("new_note")
+    new_note = form.note.data
     # Update the note in the database
     update_note_in_db(id, new_note)
     # Redirect back to home page
@@ -76,6 +82,7 @@ def update_note(id):
 @notes_bp.route("/search", methods=["GET", "POST"])
 @login_required
 def search():
+    # form = SearchForm()
     current_user = session["user"]  # Get current logged in user
     user = get_user_by_username(current_user)  # Get user from database
     # Handle note searching

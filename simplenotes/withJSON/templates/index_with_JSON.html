@@ -40,8 +40,8 @@
     <div class="row mb-4">
         <div class="col-md-6 mb-3">
             <form method="POST" action="{{ url_for('notes_bp.home') }}" class="d-flex gap-2">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <input type="text" name="note" class="form-control" placeholder="Please enter a note" required />
+                {{ form.hidden_tag() }}
+                {{ form.note(class="form-control", placeholder="Please enter a note") }}
                 <button type="submit" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i> Save
                 </button>
@@ -64,7 +64,7 @@
                 {{ note.note }}
                 <div>
                     <form method="POST" action="{{ url_for('notes_bp.delete_note', id=note.id) }}" class="d-inline">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        {{ form.hidden_tag() }}
                         <button type="submit" class="btn btn-sm btn-danger">
                             <i class="bi bi-trash"></i> Delete
                         </button>
