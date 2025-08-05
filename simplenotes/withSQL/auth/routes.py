@@ -17,6 +17,7 @@ auth_bp = Blueprint("auth_bp", __name__, template_folder="../templates")
 # Initialize the database when the app starts
 users()
 
+
 def login_required(func):
     """Decorator function to require login for protected routes"""
     @wraps(func)
@@ -27,6 +28,7 @@ def login_required(func):
             return redirect(url_for("auth_bp.login"))
         return func(*args, **kwargs)
     return wrapper
+
 
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
@@ -49,6 +51,7 @@ def login():
     # Render login page for GET requests
     return render_template("login.html", form=form)
 
+
 @auth_bp.route("/logout")
 @login_required
 def logout():
@@ -56,6 +59,7 @@ def logout():
     session.pop("user", None)
     flash("You have been logged out", "info")
     return redirect(url_for("auth_bp.login"))
+
 
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
