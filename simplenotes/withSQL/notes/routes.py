@@ -1,9 +1,3 @@
-###############################
-#                             #
-#         FOR SQLITE          #
-#                             #
-###############################
-
 # Import necessary Flask modules and database functions
 from flask import Blueprint, flash, render_template, request, redirect, url_for, session
 from auth.routes import login_required
@@ -25,12 +19,11 @@ def home():
     current_user = session["user"]
     user = get_user_by_username(current_user)
     
-    # Redirect to registration if user not found in database
+    # Handle case where user is not found in database
     if not user:
         flash("User not found! Please Sign Up!", "danger")
         return redirect(url_for("auth_bp.register"))
     
-    # Get all notes for the current user
     notes = get_notes(user[0])
     return render_template("index_with_SQL.html", notes=notes, user=current_user, form=form)
 
@@ -44,10 +37,15 @@ def add_note():
     user = get_user_by_username(current_user)
     note = form.note.data
     
-    # Insert note if content exists
+    # Validate note content before inserting
     if note:
         insert_note(note, user[0])
+        flash("Note added successfully.", "success")
+    else:
+        flash("Note cannot be empty.", "danger")
+        
     return redirect(url_for("notes_bp.home"))
+    
 
 
 @notes_bp.route("/delete/<int:id>", methods=["POST"])
@@ -55,6 +53,8 @@ def add_note():
 def delete_note(id):
     """Delete a specific note by ID"""
     delete_note_from_db(id)
+    flash("Note deleted successfully.", "success")
+    
     return redirect(url_for("notes_bp.home"))
 
 
@@ -67,10 +67,10 @@ def edit_note(id):
     user = get_user_by_username(current_user)
     notes = get_notes(user[0])
     
-    # Find the note to edit
+    # Find the specific note to edit
     current_note = next((note for note in notes if note[0] == id), None)
     if current_note is None:
-        return "Note not found", 404
+        flash("Note not found", "warning")
     
     if request.method == "GET":
         # Pre-populate form with existing note content
@@ -78,12 +78,13 @@ def edit_note(id):
         return render_template("edit_with_SQL.html", note=current_note, form=form)
     
     if form.validate_on_submit():
-        # Update note with new content
         new_note = form.note.data
         update_note_in_db(id, new_note)
         flash("Note updated successfully!", "success")
         return redirect(url_for("notes_bp.home"))
     else:
+        # Handle validation errors
+        flash("Note cannot be empty", "danger")
         return render_template("edit_with_SQL.html", note=current_note, form=form)
 
 
@@ -95,7 +96,7 @@ def search():
     user = get_user_by_username(current_user)
     query = request.args.get("q")
     
-    # Search for notes matching the query
+    # Execute search and return results
     found_note = search_note_in_db(query, user[0])
     if found_note:
         return f"Found note: {found_note[0]} <a href='/'>Back</a>"

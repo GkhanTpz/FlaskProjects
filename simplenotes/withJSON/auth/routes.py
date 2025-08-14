@@ -1,9 +1,3 @@
-###############################
-#                             #
-#          FOR JSON           #
-#                             #
-###############################
-
 # Import necessary Flask modules and database functions
 from flask import Blueprint, flash, render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -21,7 +15,6 @@ def login_required(func):
     """Decorator function to protect routes that require authentication"""
     @wraps(func)
     def wrapper(*args, **kwargs):
-        # Check if user is logged in and redirect accordingly
         if "user" not in session:
             flash("Please login to continue.", "warning")
             return redirect(url_for("auth_bp.login"))
@@ -30,43 +23,48 @@ def login_required(func):
 
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
-    # Handle user login
-    form = LoginForm()                       # Create login form instance
-    # Validate form submission
+    """Handle user login process"""
+    form = LoginForm()
+    
     if form.validate_on_submit():
-        username = form.username.data        # Get username from form
-        password = form.password.data        # Get password from form
+        username = form.username.data
+        password = form.password.data
         
-        # Check if credentials match any user
+        # Check credentials against stored users
         for user in users:
-            # Verify username and password hash
             if user["username"] == username and check_password_hash(user["password"], password):
-                session["user"] = username   # Store user in session
+                session["user"] = username
                 flash("Welcome, " + username, "success")
-                # Redirect to home page after successful login
                 return redirect(url_for("notes_bp.home"))
-        # Show error message for invalid credentials
+        
+        # Invalid credentials
         flash("Invalid username or password", "danger")
-        return render_template("login.html", form=form)
-    # Render login page for GET requests
+    
+    else:
+        # Display form validation errors
+        if form.errors:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    flash(f"{getattr(form, field).label.text} - {error}", "danger")
+                    
     return render_template("login.html", form=form)
 
 @auth_bp.route("/logout")
 @login_required
 def logout():
-    # Remove user from session and redirect to login
+    """Handle user logout process"""
     session.pop("user", None)
     flash("You have been logged out", "info")
     return redirect(url_for("auth_bp.login"))
 
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
-    # Handle user registration
-    form = RegisterForm()                    # Create registration form instance
-    # Validate form submission
+    """Handle user registration process"""
+    form = RegisterForm()
+    
     if form.validate_on_submit():
-        username = form.username.data        # Get username from form
-        password = form.password.data        # Get password from form
+        username = form.username.data
+        password = form.password.data
         
         # Check if username already exists
         for user in users:
@@ -74,17 +72,24 @@ def register():
                 flash("This username is already taken.", "danger")
                 return redirect(url_for('auth_bp.register'))
         
-        # Create new user if username is available
-        hash_password = generate_password_hash(password)  # Convert user password to secure hash format (for JSON)
+        # Create new user with hashed password
+        hash_password = generate_password_hash(password)
         
-        # Add new user to users list
         users.append({
             "username": username,
             "password": hash_password
         })
-        save_users(users)  # Save users to file
+        
+        # Save updated user list to file
+        save_users(users)
         flash("Registration successful. You can now login.", "success")
-        return redirect(url_for('auth_bp.login'))  # Redirect to login page
+        return redirect(url_for('auth_bp.login'))
     
-    # Render registration page for GET requests
+    else:
+        # Display form validation errors
+        if form.errors:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    flash(f"{getattr(form, field).label.text} - {error}", "danger")
+                    
     return render_template("register.html", form=form)
