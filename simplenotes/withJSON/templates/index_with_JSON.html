@@ -16,7 +16,7 @@
             {% with messages= get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
-                        <div class="alert alert-{{ category }} alert dismissible fade show mt-2" role="alert">
+                        <div class="alert alert-{{ category }} alert-dismissible fade show mt-2" role="alert">
                             {{ message }}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
@@ -48,8 +48,9 @@
             </form>
         </div>
         <div class="col-md-6 mb-3">
-            <form method="GET" action="{{ url_for('notes_bp.search') }}" class="d-flex gap-2">
-                <input type="text" name="q" class="form-control" placeholder="Search a keyword" required />
+            <form method="POST" action="{{ url_for('notes_bp.search') }}" class="d-flex gap-2">
+                {{ search_form.hidden_tag() }}
+                {{ search_form.query(class="form-control", placeholder="Search note") }}
                 <button type="submit" class="btn btn-secondary">
                     <i class="bi bi-search"></i> Search
                 </button>

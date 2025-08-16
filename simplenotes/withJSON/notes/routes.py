@@ -17,6 +17,8 @@ notes = load_notes()
 def home():
     """Display home page with user notes and handle note creation"""
     form = NoteForm()
+    search_form = SearchForm()
+    
     current_user = session["user"]
     
     if form.validate_on_submit():
@@ -36,7 +38,7 @@ def home():
             
     # Filter notes for current user only
     user_notes = [note for note in notes if note["user"] == current_user]
-    return render_template("index_with_JSON.html", notes=user_notes, user=current_user, form=form)
+    return render_template("index_with_JSON.html", notes=user_notes, user=current_user, form=form, search_form=search_form)
 
 
 @notes_bp.route("/delete/<id>", methods=["POST"])
@@ -87,20 +89,23 @@ def edit_note(id):
     return render_template("edit_with_JSON.html", form=form)
 
 
-@notes_bp.route("/search")
+@notes_bp.route("/search", methods=["POST"])
 @login_required
 def search():
-    """Search for notes containing specific text"""
+    """Handle note search functionality"""
+    search_form = SearchForm()
     current_user = session["user"]
-    query = request.args.get("q")
-
-    # Filter to current user's notes only
     user_notes = [note for note in notes if note["user"] == current_user]
-    
-    # Search for exact match in user's notes
-    for user_note in user_notes:
-        if user_note["note"] == query:
-            return f"Found note: {query} <a href='/'>Back</a>"
+    result = []
 
-    # Return not found if no match
-    return "Note not found <a href='/'>Back</a>", 404
+    if search_form.validate_on_submit():
+        search = search_form.query.data
+
+        # Find exact matches in user's notes
+        if search:
+            result = [note for note in user_notes if search == note["note"]]
+        else:
+            flash("Search cannot be empty.", "warning")
+            return redirect(url_for("notes_bp.home"))
+
+    return render_template("search.html", search_form=search_form, result=result)

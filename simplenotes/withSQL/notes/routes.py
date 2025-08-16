@@ -16,6 +16,8 @@ init_db()
 def home():
     """Display home page with all user notes"""
     form = NoteForm()
+    search_form = SearchForm()
+    
     current_user = session["user"]
     user = get_user_by_username(current_user)
     
@@ -25,7 +27,7 @@ def home():
         return redirect(url_for("auth_bp.register"))
     
     notes = get_notes(user[0])
-    return render_template("index_with_SQL.html", notes=notes, user=current_user, form=form)
+    return render_template("index_with_SQL.html", notes=notes, user=current_user, form=form, search_form=search_form)
 
 
 @notes_bp.route("/add", methods=["POST"])
@@ -88,17 +90,23 @@ def edit_note(id):
         return render_template("edit_with_SQL.html", note=current_note, form=form)
 
 
-@notes_bp.route("/search")
+@notes_bp.route("/search", methods=["POST"])
 @login_required
 def search():
-    """Search for notes containing specific text"""
+    """Handle note search functionality"""
+    search_form = SearchForm()
     current_user = session["user"]
     user = get_user_by_username(current_user)
-    query = request.args.get("q")
-    
-    # Execute search and return results
-    found_note = search_note_in_db(query, user[0])
-    if found_note:
-        return f"Found note: {found_note[0]} <a href='/'>Back</a>"
-    else:
-        return "Note not found <a href='/'>Back</a>", 404
+    result = []
+
+    if search_form.validate_on_submit():
+        search = search_form.query.data
+
+        # Perform database search if query exists
+        if search:
+            result = search_note_in_db(search, user[0]) 
+        else:
+            flash("Search cannot be empty.", "danger")
+            return redirect(url_for("notes_bp.home"))
+
+    return render_template("search.html", result=result, search_form=search_form)
