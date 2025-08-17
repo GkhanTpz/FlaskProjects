@@ -1,5 +1,5 @@
 # Import necessary Flask modules and database functions
-from flask import Blueprint, flash, render_template, request, redirect, url_for, session
+from flask import Blueprint, flash, render_template, redirect, url_for, session
 from auth.routes import login_required
 from notes.forms import NoteForm, SearchForm
 from notes.note_manager import save_notes, load_notes
@@ -16,13 +16,13 @@ notes = load_notes()
 @login_required
 def home():
     """Display home page with user notes and handle note creation"""
-    form = NoteForm()
+    note_form = NoteForm()
     search_form = SearchForm()
     
     current_user = session["user"]
     
-    if form.validate_on_submit():
-        note = form.note.data
+    if note_form.validate_on_submit():
+        note = note_form.note.data
         
         # Add note if content exists
         if note:
@@ -38,7 +38,7 @@ def home():
             
     # Filter notes for current user only
     user_notes = [note for note in notes if note["user"] == current_user]
-    return render_template("index_with_JSON.html", notes=user_notes, user=current_user, form=form, search_form=search_form)
+    return render_template("index_with_JSON.html", notes=user_notes, user=current_user, note_form=note_form, search_form=search_form)
 
 
 @notes_bp.route("/delete/<id>", methods=["POST"])
@@ -64,14 +64,14 @@ def delete_note(id):
 @login_required
 def edit_note(id):
     """Edit an existing note"""
-    form = NoteForm()
+    note_form = NoteForm()
     current_user = session["user"]
     
     # Find note by ID
     note_index = next((index for index, note in enumerate(notes) if note["id"] == id), None)
     
-    if form.validate_on_submit():
-        new_note = form.note.data
+    if note_form.validate_on_submit():
+        new_note = note_form.note.data
         
         # Update note if valid and user owns it
         if note_index is not None and notes[note_index]["user"] == current_user:
@@ -84,9 +84,9 @@ def edit_note(id):
                 flash("Note cannot be empty.", "danger")
     
     # Pre-populate form with existing note content
-    form.note.data = notes[note_index]["note"]
+    note_form.note.data = notes[note_index]["note"]
     
-    return render_template("edit_with_JSON.html", form=form)
+    return render_template("edit_with_JSON.html", note_form=note_form)
 
 
 @notes_bp.route("/search", methods=["POST"])

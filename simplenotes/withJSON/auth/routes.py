@@ -1,5 +1,5 @@
 # Import necessary Flask modules and database functions
-from flask import Blueprint, flash, render_template, request, redirect, url_for, session
+from flask import Blueprint, flash, render_template, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from auth.user_manager import save_users, load_users
 from auth.forms import LoginForm, RegisterForm
@@ -24,11 +24,11 @@ def login_required(func):
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
     """Handle user login process"""
-    form = LoginForm()
+    auth_form = LoginForm()
     
-    if form.validate_on_submit():
-        username = form.username.data
-        password = form.password.data
+    if auth_form.validate_on_submit():
+        username = auth_form.username.data
+        password = auth_form.password.data
         
         # Check credentials against stored users
         for user in users:
@@ -42,12 +42,12 @@ def login():
     
     else:
         # Display form validation errors
-        if form.errors:
-            for field, errors in form.errors.items():
+        if auth_form.errors:
+            for field, errors in auth_form.errors.items():
                 for error in errors:
-                    flash(f"{getattr(form, field).label.text} - {error}", "danger")
+                    flash(f"{getattr(auth_form, field).label.text} - {error}", "danger")
                     
-    return render_template("login.html", form=form)
+    return render_template("login.html", auth_form=auth_form)
 
 @auth_bp.route("/logout")
 @login_required
@@ -60,11 +60,11 @@ def logout():
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
     """Handle user registration process"""
-    form = RegisterForm()
+    auth_form = RegisterForm()
     
-    if form.validate_on_submit():
-        username = form.username.data
-        password = form.password.data
+    if auth_form.validate_on_submit():
+        username = auth_form.username.data
+        password = auth_form.password.data
         
         # Check if username already exists
         for user in users:
@@ -87,9 +87,9 @@ def register():
     
     else:
         # Display form validation errors
-        if form.errors:
-            for field, errors in form.errors.items():
+        if auth_form.errors:
+            for field, errors in auth_form.errors.items():
                 for error in errors:
-                    flash(f"{getattr(form, field).label.text} - {error}", "danger")
+                    flash(f"{getattr(auth_form, field).label.text} - {error}", "danger")
                     
-    return render_template("register.html", form=form)
+    return render_template("register.html", auth_form=auth_form)

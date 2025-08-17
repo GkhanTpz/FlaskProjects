@@ -29,14 +29,14 @@
             </div>
             <!-- Login form with username, password and action buttons -->
             <form method="POST" action="{{ url_for('auth_bp.login') }}">
-                {{ form.hidden_tag() }}
+                {{ auth_form.hidden_tag() }}
                 <div class="mb-3">
-                    {{ form.username.label }}<br>
-                    {{ form.username(class="form-control", placeholder="Username") }}
+                    {{ auth_form.username.label }}<br>
+                    {{ auth_form.username(class="form-control", placeholder="Username") }}
                 </div>
                 <div class="mb-3">
-                    {{ form.password.label }}<br>
-                    {{ form.password(class="form-control", placeholder="Password") }}
+                    {{ auth_form.password.label }}<br>
+                    {{ auth_form.password(class="form-control", placeholder="Password") }}
                 </div>
                 <div class="d-grid gap-2 mb-3">
                     <button type="submit" class="btn btn-primary">

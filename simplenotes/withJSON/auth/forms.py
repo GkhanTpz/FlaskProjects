@@ -6,15 +6,15 @@ from wtforms.validators import DataRequired, Length, EqualTo, length
 
 class LoginForm(FlaskForm):
     """Form for user login with username and password fields"""
-    username = StringField("Username", validators=[DataRequired(), Length(min=3)])    # Username field with minimum 3 characters
-    password = PasswordField("Password", validators=[DataRequired()])                  # Password field (required)
-    submit = SubmitField("Login")                                                     # Submit button for login
+    username = StringField("Username", validators=[DataRequired(), Length(min=3)])
+    password = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Login")
 
 class RegisterForm(FlaskForm):
     """Form for user registration with validation"""
-    username = StringField("Username", validators=[DataRequired(), Length(min=3)])    # Username field with minimum 3 characters
-    password = PasswordField("Password", validators=[DataRequired(), Length(min=4)])  # Password field with minimum 4 characters
-    confirm_password = PasswordField("Confirm Password", validators=[               # Password confirmation field
-        DataRequired(), EqualTo("password", message="Passwords must match!")
-    ])
-    submit = SubmitField("Register")                                                  # Submit button for registration
+    username = StringField("Username", validators=[DataRequired(), Length(min=3)])
+    password = PasswordField("Password", validators=[DataRequired(), Length(min=4)])
+    # Password confirmation with matching validation
+    confirm_password = PasswordField("Confirm Password", validators=[
+        DataRequired(), EqualTo("password", message="Passwords must match!")])
+    submit = SubmitField("Register")

@@ -15,7 +15,7 @@ init_db()
 @login_required
 def home():
     """Display home page with all user notes"""
-    form = NoteForm()
+    note_form = NoteForm()
     search_form = SearchForm()
     
     current_user = session["user"]
@@ -27,17 +27,17 @@ def home():
         return redirect(url_for("auth_bp.register"))
     
     notes = get_notes(user[0])
-    return render_template("index_with_SQL.html", notes=notes, user=current_user, form=form, search_form=search_form)
+    return render_template("index_with_SQL.html", notes=notes, user=current_user, note_form=note_form, search_form=search_form)
 
 
 @notes_bp.route("/add", methods=["POST"])
 @login_required
 def add_note():
     """Add a new note to the database"""
-    form = NoteForm()
+    note_form = NoteForm()
     current_user = session["user"]
     user = get_user_by_username(current_user)
-    note = form.note.data
+    note = note_form.note.data
     
     # Validate note content before inserting
     if note:
@@ -64,7 +64,7 @@ def delete_note(id):
 @login_required
 def edit_note(id):
     """Edit an existing note"""
-    form = NoteForm()
+    note_form = NoteForm()
     current_user = session["user"]
     user = get_user_by_username(current_user)
     notes = get_notes(user[0])
@@ -76,18 +76,18 @@ def edit_note(id):
     
     if request.method == "GET":
         # Pre-populate form with existing note content
-        form.note.data = current_note[1]
-        return render_template("edit_with_SQL.html", note=current_note, form=form)
+        note_form.note.data = current_note[1]
+        return render_template("edit_with_SQL.html", note=current_note, note_form=note_form)
     
-    if form.validate_on_submit():
-        new_note = form.note.data
+    if note_form.validate_on_submit():
+        new_note = note_form.note.data
         update_note_in_db(id, new_note)
         flash("Note updated successfully!", "success")
         return redirect(url_for("notes_bp.home"))
     else:
         # Handle validation errors
         flash("Note cannot be empty", "danger")
-        return render_template("edit_with_SQL.html", note=current_note, form=form)
+        return render_template("edit_with_SQL.html", note=current_note, note_form=note_form)
 
 
 @notes_bp.route("/search", methods=["POST"])

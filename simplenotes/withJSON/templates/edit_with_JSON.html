@@ -15,8 +15,8 @@
         <div class="col-md-6">
             <h4>Update Note</h4>
             <form method="POST" class="d-flex gap-2 align-items-center">
-                {{ form.hidden_tag() }}
-                {{ form.note(class="form-control") }}
+                {{ note_form.hidden_tag() }}
+                {{ note_form.note(class="form-control") }}
                 <button type="submit" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i> Save
                 </button>
