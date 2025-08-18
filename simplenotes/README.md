@@ -28,7 +28,7 @@ FlaskProject/
 │   ├── notes/            # Note CRUD (SQLite or JSON)
 │   ├── models/           # SQLite database logic (db.py)
 │   ├── static/           # Custom CSS or image files
-│   ├── templates/        # Jinja2 templates with base.html structure
+│   ├── templates/        # Jinja2 templates with index.html structure
 │   ├── app.py            # Main application file
 │
 ├── test/                 # Experimental testing & drafts
