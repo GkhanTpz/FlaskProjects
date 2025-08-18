@@ -33,7 +33,6 @@ FlaskProject/
 │
 ├── test/                 # Experimental testing & drafts
 ├── config.py             # (Planned) App config (e.g., database URI)
-├── forms.py              # (Planned) Flask-WTF form definitions
 ├── requirements.txt      # Python dependency list
 └── README.md             # Project documentation (this file)
 ```
