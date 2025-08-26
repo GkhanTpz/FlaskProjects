@@ -108,4 +108,4 @@ def search():
             flash("Search cannot be empty.", "warning")
             return redirect(url_for("notes_bp.home"))
 
-    return render_template("search.html", search_form=search_form, result=result)
+    return render_template("search.html",  result=result, search_form=search_form)

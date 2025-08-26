@@ -39,9 +39,6 @@
                 <div class="mb-3">
                     {{ auth_form.confirm_password.label }}<br>
                     {{ auth_form.confirm_password(class="form-control", placeholder="Confirm Password") }}
-                    {% for error in auth_form.confirm_password.errors %}
-                        <div class="text-danger"> {{ error }}</div>
-                    {% endfor %}
                 </div>
                 <div class="d-grid gap-2 mb-3">
                     <button type="submit" class="btn btn-primary">
