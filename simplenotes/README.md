@@ -28,11 +28,12 @@ FlaskProject/
 │   ├── notes/            # Note CRUD (SQLite or JSON)
 │   ├── models/           # SQLite database logic (db.py)
 │   ├── static/           # Custom CSS or image files
-│   ├── templates/        # Jinja2 templates with index.html structure
+│   ├── templates/        # Jinja2 templates with base.html structure
 │   ├── app.py            # Main application file
 │
 ├── test/                 # Experimental testing & drafts
 ├── config.py             # (Planned) App config (e.g., database URI)
+├── forms.py              # (Planned) Flask-WTF form definitions
 ├── requirements.txt      # Python dependency list
 └── README.md             # Project documentation (this file)
 ```

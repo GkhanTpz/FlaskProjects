@@ -11,3 +11,6 @@ class SearchForm(FlaskForm):
     """Form for searching notes"""
     query = StringField("Search", validators=[DataRequired(), Length(max=150)])
     submit = SubmitField("Search")
+    
+    class Meta:
+        csrf = False

@@ -48,8 +48,7 @@
             </form>
         </div>
         <div class="col-md-6 mb-3">
-            <form method="POST" action="{{ url_for('notes_bp.search') }}" class="d-flex gap-2">
-                {{search_form.hidden_tag() }}
+            <form method="GET" action="{{ url_for('notes_bp.search') }}" class="d-flex gap-2">
                 {{ search_form.query(class="form-control", placeholder="Search note") }}
                 <button type="submit" class="btn btn-secondary">
                     <i class="bi bi-search"></i> Search

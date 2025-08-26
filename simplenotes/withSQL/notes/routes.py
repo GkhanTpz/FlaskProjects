@@ -1,5 +1,5 @@
 # Import necessary Flask modules and database functions
-from flask import Blueprint, flash, render_template, request, redirect, url_for, session
+from flask import Blueprint, flash, render_template, request, redirect, url_for, session, request
 from auth.routes import login_required
 from notes.forms import NoteForm, SearchForm
 from models.db import init_db, get_user_by_username, get_notes, update_note_in_db, insert_note, delete_note_from_db, search_note_in_db
@@ -90,16 +90,16 @@ def edit_note(id):
         return render_template("edit_with_SQL.html", note=current_note, note_form=note_form)
 
 
-@notes_bp.route("/search", methods=["POST"])
+@notes_bp.route("/search", methods=["GET"])
 @login_required
 def search():
     """Handle note search functionality"""
-    search_form = SearchForm()
+    search_form = SearchForm(request.args)
     current_user = session["user"]
     user = get_user_by_username(current_user)
     result = []
 
-    if search_form.validate_on_submit():
+    if search_form.validate():
         search = search_form.query.data
 
         # Perform database search if query exists
