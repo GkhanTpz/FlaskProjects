@@ -2,7 +2,7 @@
 from flask import Blueprint, flash, render_template, request, redirect, url_for, session, request
 from auth.routes import login_required
 from notes.forms import NoteForm, SearchForm
-from models.db import init_db, get_user_by_username, get_notes, update_note_in_db, insert_note, delete_note_from_db, search_note_in_db
+from models.db import init_db, get_user_by_username, get_user_notes, update_note_in_db, insert_note, delete_note_from_db, search_note_in_db
 
 # Create Blueprint for notes-related routes
 notes_bp = Blueprint("notes_bp", __name__, template_folder="../templates")
@@ -26,7 +26,7 @@ def home():
         flash("User not found! Please Sign Up!", "danger")
         return redirect(url_for("auth_bp.register"))
     
-    notes = get_notes(user[0])
+    notes = get_user_notes(user[0])
     return render_template("index_with_SQL.html", notes=notes, user=current_user, note_form=note_form, search_form=search_form)
 
 
@@ -67,7 +67,7 @@ def edit_note(id):
     note_form = NoteForm()
     current_user = session["user"]
     user = get_user_by_username(current_user)
-    notes = get_notes(user[0])
+    notes = get_user_notes(user[0])
     
     # Find the specific note to edit
     current_note = next((note for note in notes if note[0] == id), None)

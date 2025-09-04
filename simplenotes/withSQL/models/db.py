@@ -76,7 +76,7 @@ def insert_note(note, user_id):
     conn.commit()
     conn.close()
 
-def get_notes(user_id):
+def get_user_notes(user_id):
     """Fetch all notes for specific user"""
     conn, cursor = db_connect(NOTE_PATH)
     cursor.execute("SELECT id, note FROM notes WHERE user_id = ?", (user_id, ))
