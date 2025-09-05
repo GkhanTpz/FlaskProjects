@@ -70,6 +70,6 @@ def delete_note(id):
         if note["id"] == id:
             notes.remove(note)  
             save_notes(notes)   
-            return jsonify({"error": "Note deleted"}), 200
+            return jsonify({"message": "Note deleted"}), 200
     
     return jsonify({"error": "Note not found"}), 404

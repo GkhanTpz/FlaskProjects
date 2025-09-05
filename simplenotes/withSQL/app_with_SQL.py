@@ -3,6 +3,8 @@ from flask import Flask, render_template
 from auth.routes import auth_bp
 from notes.routes import notes_bp
 from flask_wtf.csrf import CSRFProtect
+from api.routes import api_bp
+
 
 # Create Flask application instance
 app = Flask(__name__)
@@ -14,6 +16,7 @@ csrf = CSRFProtect(app)
 # Register blueprints with the main application
 app.register_blueprint(auth_bp)
 app.register_blueprint(notes_bp)
+app.register_blueprint(api_bp)
 
 @app.errorhandler(404)
 def not_found_error(error):

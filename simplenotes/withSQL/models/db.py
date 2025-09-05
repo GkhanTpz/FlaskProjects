@@ -84,17 +84,17 @@ def get_user_notes(user_id):
     conn.close()
     return notes
 
-def delete_note_from_db(id):
+def delete_note_from_db(id, user_id):
     """Delete note by ID"""
     conn, cursor = db_connect(NOTE_PATH)
-    cursor.execute("DELETE FROM notes WHERE id = ?", (id,))
+    cursor.execute("DELETE FROM notes WHERE id = ? AND user_id = ?", (id, user_id))
     conn.commit()
     conn.close()
 
-def update_note_in_db(id, new_note):
+def update_note_in_db(id, new_note, user_id):
     """Update note content by ID"""
     conn, cursor = db_connect(NOTE_PATH)
-    cursor.execute("UPDATE notes SET note = ? WHERE id = ?", (new_note, id))
+    cursor.execute("UPDATE notes SET note = ? WHERE id = ? AND user_id = ?", (new_note, id, user_id))
     conn.commit()
     conn.close()
 

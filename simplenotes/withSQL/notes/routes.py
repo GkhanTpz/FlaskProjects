@@ -29,7 +29,6 @@ def home():
     notes = get_user_notes(user[0])
     return render_template("index_with_SQL.html", notes=notes, user=current_user, note_form=note_form, search_form=search_form)
 
-
 @notes_bp.route("/add", methods=["POST"])
 @login_required
 def add_note():
@@ -48,18 +47,6 @@ def add_note():
         
     return redirect(url_for("notes_bp.home"))
     
-
-
-@notes_bp.route("/delete/<int:id>", methods=["POST"])
-@login_required
-def delete_note(id):
-    """Delete a specific note by ID"""
-    delete_note_from_db(id)
-    flash("Note deleted successfully.", "success")
-    
-    return redirect(url_for("notes_bp.home"))
-
-
 @notes_bp.route("/edit/<int:id>", methods=["GET", "POST"])
 @login_required
 def edit_note(id):
@@ -81,7 +68,7 @@ def edit_note(id):
     
     if note_form.validate_on_submit():
         new_note = note_form.note.data
-        update_note_in_db(id, new_note)
+        update_note_in_db(id, new_note, user[0])
         flash("Note updated successfully!", "success")
         return redirect(url_for("notes_bp.home"))
     else:
@@ -89,6 +76,16 @@ def edit_note(id):
         flash("Note cannot be empty", "danger")
         return render_template("edit_with_SQL.html", note=current_note, note_form=note_form)
 
+@notes_bp.route("/delete/<int:id>", methods=["POST"])
+@login_required
+def delete_note(id):
+    current_user = session["user"]
+    user = get_user_by_username(current_user)
+    """Delete a specific note by ID"""
+    delete_note_from_db(id, user[0])
+    flash("Note deleted successfully.", "success")
+    
+    return redirect(url_for("notes_bp.home"))
 
 @notes_bp.route("/search", methods=["GET"])
 @login_required

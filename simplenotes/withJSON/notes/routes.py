@@ -41,25 +41,6 @@ def home():
     return render_template("index_with_JSON.html", notes=user_notes, user=current_user, note_form=note_form, search_form=search_form)
 
 
-@notes_bp.route("/delete/<id>", methods=["POST"])
-@login_required
-def delete_note(id):
-    """Delete a specific note by ID"""
-    current_user = session["user"]
-    
-    # Find note by ID and verify ownership
-    note_index = next((index for index, note in enumerate(notes) if note["id"] == id), None)
-    
-    if note_index is not None and notes[note_index]["user"] == current_user:
-        del notes[note_index]
-        save_notes(notes)
-        flash("Note deleted successfully.", "success")
-    else:
-        flash("Note not found", "warning")
-        
-    return redirect(url_for('notes_bp.home'))
-
-
 @notes_bp.route("/edit/<id>", methods=["GET", "POST"])
 @login_required
 def edit_note(id):
@@ -87,6 +68,25 @@ def edit_note(id):
     note_form.note.data = notes[note_index]["note"]
     
     return render_template("edit_with_JSON.html", note_form=note_form)
+
+
+@notes_bp.route("/delete/<id>", methods=["POST"])
+@login_required
+def delete_note(id):
+    """Delete a specific note by ID"""
+    current_user = session["user"]
+    
+    # Find note by ID and verify ownership
+    note_index = next((index for index, note in enumerate(notes) if note["id"] == id), None)
+    
+    if note_index is not None and notes[note_index]["user"] == current_user:
+        del notes[note_index]
+        save_notes(notes)
+        flash("Note deleted successfully.", "success")
+    else:
+        flash("Note not found", "warning")
+        
+    return redirect(url_for('notes_bp.home'))
 
 
 @notes_bp.route("/search", methods=["GET"])
