@@ -41,7 +41,7 @@ def add_note():
 @login_required
 def update_note(id):
     """Update an existing note"""
-    current_user = session["user"]  #
+    current_user = session["user"] 
     data = request.get_json(silent=True)  
     
     # Check if data is valid
